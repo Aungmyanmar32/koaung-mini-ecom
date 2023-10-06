@@ -13,7 +13,7 @@ const AuthPage = () => {
     if (session) {
       router.push("/");
     }
-  }, []);
+  }, [session]);
   return (
     <Layout title="Log in page">
       <Box
