@@ -19,8 +19,6 @@ const CartPage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const [open, setOpen] = useState<boolean>(false);
-
   const getTotalPrice = () => {
     let totalPrice = 0;
     cartItems.forEach((item) => (totalPrice += item.price * item.quantity));
@@ -31,9 +29,19 @@ const CartPage = () => {
     dispatch(updateQuantity({ id, quantity }));
   };
 
-  //id 3 , q 0
   const handleDecrease = (id: number, quantity: number) => {
     dispatch(updateQuantity({ id, quantity })); // 3 , 0
+  };
+  const onSuccess = (data: any) => {
+    console.log("Success", data);
+    router.push(`/confirmation?orderId=${data.id}&status=${data.status}`);
+    // /confirmation?orderId=16&status=ORDERED
+  };
+  const onError = () => {
+    console.log("Error");
+  };
+  const createOrder = () => {
+    dispatch(confirmOrder({ payload: cartItems, onSuccess, onError }));
   };
 
   return (
@@ -77,21 +85,9 @@ const CartPage = () => {
               <Typography variant="h4">
                 Total price :{getTotalPrice()}{" "}
               </Typography>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  dispatch(confirmOrder(cartItems));
-                  setOpen(true);
-                  setTimeout(() => router.push("/confirmation"), 700);
-                }}
-              >
+              <Button variant="contained" onClick={createOrder}>
                 Confirm Order
               </Button>
-              <SnackBars
-                msg="Order Confirmed.."
-                open={open}
-                setOpen={setOpen}
-              />
             </Box>
           </Box>
         ) : (

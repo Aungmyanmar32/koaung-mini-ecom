@@ -10,13 +10,14 @@ import {
   createTheme,
   Badge,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useAppSelector } from "@/store/hook";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 interface Props {
   children: React.ReactNode;
@@ -32,7 +33,22 @@ const Layout = ({ children, title }: Props) => {
     },
   });
 
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (!session) {
+      router.push("/auth");
+    }
+  }, [session]);
+
   const cartCount = useAppSelector((store) => store.cart.items.length);
+  const hadleLogin = () => {
+    if (session) {
+      signOut();
+    } else {
+      signIn();
+    }
+  };
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
@@ -79,6 +95,9 @@ const Layout = ({ children, title }: Props) => {
             >
               {!theme ? <Brightness4Icon /> : <Brightness7Icon />}
             </IconButton>
+            <Button variant="contained" sx={{ mx: 2 }} onClick={hadleLogin}>
+              {session ? "log out" : "log in"}
+            </Button>
             <Button sx={{ mx: 2 }}></Button>
           </Toolbar>
         </AppBar>

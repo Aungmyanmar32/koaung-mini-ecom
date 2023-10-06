@@ -1,4 +1,4 @@
-import { Cart, CartState } from "@/types/cartState";
+import { Cart, CartState, Option, Option2 } from "@/types/cartState";
 import { config } from "@/utils/config";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
@@ -10,12 +10,34 @@ const initialState: CartState = {
 
 export const confirmOrder = createAsyncThunk(
   "confirmOrder",
-  async (payload: Cart[], thunkAPI) => {
-    const resposne = await fetch(`${config.apiBaseUrl}/order`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+  async (options: Option, thunkAPI) => {
+    const { payload, onSuccess, onError } = options;
+    try {
+      const resposne = await fetch(`${config.apiBaseUrl}/order`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await resposne.json();
+      onSuccess && onSuccess(data);
+    } catch (error) {
+      onError && onError();
+    }
+  }
+);
+
+export const cancelOrder = createAsyncThunk(
+  "cancelOrder",
+  async (options2: Option2, tunkAPI) => {
+    const { orderId, onSuccess, onError } = options2;
+    try {
+      await fetch(`${config.apiBaseUrl}/order/${orderId}`, {
+        method: "DELETE",
+      });
+      onSuccess && onSuccess();
+    } catch (error) {
+      onError && onError();
+    }
   }
 );
 
