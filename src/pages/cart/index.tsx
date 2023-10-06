@@ -51,7 +51,7 @@ const CartPage = () => {
           <Box>
             {cartItems.map((item) => {
               return (
-                <Box>
+                <Box key={item.id}>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     <img src={item.imageUrl || ""} width={100} />
                     <Box>
