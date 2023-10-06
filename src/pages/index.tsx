@@ -13,9 +13,9 @@ const HomePage = () => {
   const { data: session } = useSession();
   const router = useRouter();
   useEffect(() => {
-    if (!session) {
-      router.push("/auth");
-    }
+    // if (!session) {
+    //   router.push("/auth");
+    // }
   }, [session]);
   const dispatch = useAppDispatch();
   const products = useAppSelector((store) => store.products.items);
