@@ -4,14 +4,16 @@ import Layout from "@/components/Layout";
 import { Box, Button, Typography } from "@mui/material";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const AuthPage = () => {
   const { data: session } = useSession();
   const router = useRouter();
-  if (session) {
-    router.push("/");
-  }
+  useEffect(() => {
+    if (session) {
+      router.push("/");
+    }
+  }, []);
   return (
     <Layout title="Log in page">
       <Box

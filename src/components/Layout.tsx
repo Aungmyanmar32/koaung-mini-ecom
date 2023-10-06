@@ -39,7 +39,7 @@ const Layout = ({ children, title }: Props) => {
     if (!session) {
       router.push("/auth");
     }
-  }, [session, router]);
+  }, [session]);
 
   const cartCount = useAppSelector((store) => store.cart.items.length);
   const hadleLogin = () => {
