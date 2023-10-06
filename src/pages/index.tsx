@@ -10,13 +10,13 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
 const HomePage = () => {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
   const router = useRouter();
-  useEffect(() => {
-    // if (!session) {
-    //   router.push("/auth");
-    // }
-  }, [session]);
+  // useEffect(() => {
+  //   // if (!session) {
+  //   //   router.push("/auth");
+  //   // }
+  // }, [session]);
   const dispatch = useAppDispatch();
   const products = useAppSelector((store) => store.products.items);
   const cardItems = useAppSelector((store) => store.cart.items);
