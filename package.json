@@ -27,6 +27,7 @@
     "short-unique-id": "^5.0.3"
   },
   "devDependencies": {
+    "@builder.io/partytown": "^0.8.1",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
