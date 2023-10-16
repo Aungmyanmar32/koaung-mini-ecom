@@ -9,9 +9,13 @@ const initialState: ProductState = {
 };
 
 export const fetchData = createAsyncThunk("fetchData", async (_, thunkAPI) => {
-  const response = await fetch(`${config.apiBaseUrl}/products`);
-  const products = await response.json(); //[haha]
-  thunkAPI.dispatch(setProduct(products));
+  try {
+    const response = await fetch(`${config.apiBaseUrl}/products`);
+    const products = await response.json(); //[haha]
+    thunkAPI.dispatch(setProduct(products));
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 export const productSlice = createSlice({
